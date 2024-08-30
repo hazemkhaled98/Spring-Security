@@ -29,7 +29,7 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
 
         String token = String.valueOf(authentication.getDetails());
 
-        if(JwtUtil.isValidToken(token)) {
+        if (JwtUtil.isValidToken(token)) {
 
             log.info("Authentication Provider: JWT token is valid");
             String username = JwtUtil.extractUsername(token);

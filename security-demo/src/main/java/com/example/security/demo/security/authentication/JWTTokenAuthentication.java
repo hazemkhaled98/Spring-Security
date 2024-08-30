@@ -19,7 +19,6 @@ public class JWTTokenAuthentication implements Authentication {
     private boolean isAuthenticated;
 
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return principal.getAuthorities();

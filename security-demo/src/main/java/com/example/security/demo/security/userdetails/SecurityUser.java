@@ -33,7 +33,7 @@ public class SecurityUser implements UserDetails {
         return user.getUsername();
     }
 
-    public long getId(){
+    public long getId() {
         return user.getId();
     }
 }

@@ -23,11 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Getter
-    private static class AuthenticationRequest{
+    private static class AuthenticationRequest {
         String username;
         String password;
     }

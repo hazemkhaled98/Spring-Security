@@ -26,8 +26,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-       Optional<User> user = userService.getUserById(id);
-       return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<User> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping(consumes = {"application/json"})

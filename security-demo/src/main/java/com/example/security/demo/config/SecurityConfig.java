@@ -17,31 +17,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-
 @Configuration
 //@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 public class SecurityConfig {
 
 
-
-
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-       configureSessionPolicy(http);
-       configureCsrf(http);
-       configureSecurity(http);
+        configureSessionPolicy(http);
+        configureCsrf(http);
+        configureSecurity(http);
 
 
-       http.with(new JWTConfigurer(), Customizer.withDefaults());
+        http.with(new JWTConfigurer(), Customizer.withDefaults());
 
         return http.build();
     }
 
 
     @Bean
-    RoleHierarchy roleHierarchy(){
+    RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
         return roleHierarchy;
@@ -49,7 +46,7 @@ public class SecurityConfig {
 
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -64,7 +61,7 @@ public class SecurityConfig {
     }
 
     private void configureSecurity(HttpSecurity http) throws Exception {
-        http.authorizeRequests( a ->
+        http.authorizeRequests(a ->
                 a.requestMatchers("/login", "/error", "/failed").permitAll()
                         .anyRequest().authenticated()
         );

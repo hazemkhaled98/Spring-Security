@@ -20,7 +20,6 @@ public class JWTConfigurer extends AbstractHttpConfigurer<JWTConfigurer, HttpSec
                 .getBean(JpaUserDetailsService.class);
 
 
-
         JWTAuthenticationProvider jwtAuthenticationProvider = new JWTAuthenticationProvider(userDetailsService);
 
         http.authenticationProvider(jwtAuthenticationProvider);

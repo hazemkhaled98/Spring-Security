@@ -15,7 +15,7 @@ public class JWTConverter implements AuthenticationConverter {
 
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
-            if(JwtUtil.isValidToken(token)){
+            if (JwtUtil.isValidToken(token)) {
                 return JWTTokenAuthentication.builder()
                         .token(token)
                         .build();

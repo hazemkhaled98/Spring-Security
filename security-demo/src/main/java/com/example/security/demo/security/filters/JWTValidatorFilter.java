@@ -30,7 +30,7 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
 
         Authentication authentication = converter.convert(request);
 
-        if(authentication == null){
+        if (authentication == null) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -40,10 +40,10 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
         log.info("Principal after JWT Verification: {}", authentication.getPrincipal());
 
 
-            if(authentication.isAuthenticated()) {
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                context.setAuthentication(authentication);
-                SecurityContextHolder.setContext(context);
+        if (authentication.isAuthenticated()) {
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
         }
 
         filterChain.doFilter(request, response);
