@@ -10,15 +10,19 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 
 @Configuration
-//@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 public class SecurityConfig {
 
@@ -26,45 +30,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        configureSessionPolicy(http);
-        configureCsrf(http);
-        configureSecurity(http);
+            http
+                    .oauth2Login(Customizer.withDefaults())
+                    .authorizeRequests(a -> a.anyRequest().authenticated());
 
 
-        http.with(new JWTConfigurer(), Customizer.withDefaults());
-
-        return http.build();
+            return http.build();
     }
-
-
-    @Bean
-    RoleHierarchy roleHierarchy() {
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
-        return roleHierarchy;
-    }
-
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    private void configureSessionPolicy(HttpSecurity http) throws Exception {
-        http.sessionManagement(sessionConfig ->
-                sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-    }
-
-    private void configureCsrf(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
-    }
-
-    private void configureSecurity(HttpSecurity http) throws Exception {
-        http.authorizeRequests(a ->
-                a.requestMatchers("/login", "/error", "/failed").permitAll()
-                        .anyRequest().authenticated()
-        );
-    }
-
 }
